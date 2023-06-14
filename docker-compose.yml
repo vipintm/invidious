@@ -21,8 +21,8 @@ services:
       INVIDIOUS_CONFIG: |
         db:
           dbname: invidious
-          user: kemal
-          password: kemal
+          user: mytube
+          password: mytube
           host: invidious-db
           port: 5432
         check_tables: true
@@ -47,10 +47,13 @@ services:
       - ./docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh
     environment:
       POSTGRES_DB: invidious
-      POSTGRES_USER: kemal
-      POSTGRES_PASSWORD: kemal
+      POSTGRES_USER: mytube
+      POSTGRES_PASSWORD: mytube
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
 
 volumes:
   postgresdata:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /extra/data/docker/invidious-01
